@@ -14,22 +14,39 @@ function generateWeeklyCalendar(year, month, day) {
   const startDate = new Date(year, month, day);
   startDate.setDate(startDate.getDate() - startDate.getDay());
 
-  // Generate days for the week
+  //generate days of week
   for (let i = 0; i < 7; i++) {
     const dayDiv = document.createElement('div');
     dayDiv.classList.add('day');
-    dayDiv.textContent = startDate.toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' });
 
-    // Add click event to set an event on the specific day
-    dayDiv.addEventListener('click', function() {
-      openEventModal(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-    });
+    // Day name and date
+    const dayHeader = document.createElement('div');
+    dayHeader.classList.add('day-header');
+    dayHeader.textContent = startDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
 
+    // Hours grid
+    const hoursGrid = document.createElement('div');
+    hoursGrid.classList.add('hours-grid');
+
+    for (let hour = 0; hour < 24; hour++) {
+      const hourDiv = document.createElement('div');
+      hourDiv.classList.add('hour');
+      hourDiv.textContent = `${(hour < 10 ? '0' : '') + hour}:00`; // Format hour (00:00 format)
+
+      // Optionally, you can add click event listeners or additional functionality to each hour
+
+      hoursGrid.appendChild(hourDiv);
+    }
+
+    dayDiv.appendChild(dayHeader);
+    dayDiv.appendChild(hoursGrid);
+    
     daysContainer.appendChild(dayDiv);
 
     startDate.setDate(startDate.getDate() + 1);
   }
 }
+
 
 // Function to open the event modal
 function openEventModal(year, month, day) {
@@ -59,6 +76,7 @@ function openEventModal(year, month, day) {
 }
 
 // Function to validate time format (00:00 to 24:00)
+// Function to validate time format (00:00 to 24:00)
 function validateTime(time) {
   const regex = /^(?:2[0-3]|[01][0-9]):[0-5][0-9]$/;
   return regex.test(time);
@@ -82,7 +100,15 @@ document.getElementById('nextWeek').addEventListener('click', function() {
 });
 
 // Initial update for current date and time
-updateCurrentDateTime();
+updateESTDateTime();
 
 // Continuous update for current date and time
-setInterval(updateCurrentDateTime, 1000); // Update every second
+setInterval(updateESTDateTime, 1000); // Update every second
+
+// Event listener for the "Add Event" button
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('addEventBtn').addEventListener('click', function() {
+    const currentDate = new Date();
+    openEventModal(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+  });
+});
