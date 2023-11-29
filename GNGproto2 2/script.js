@@ -112,3 +112,58 @@ document.addEventListener('DOMContentLoaded', function() {
     openEventModal(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
   });
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+  const addStickyNoteBtn = document.getElementById('addStickyNoteBtn');
+  const calendar = document.querySelector('.week');
+
+  let isAddingStickyNote = false;
+
+  addStickyNoteBtn.addEventListener('click', function () {
+    isAddingStickyNote = true;
+  });
+
+  calendar.addEventListener('click', function (event) {
+    if (isAddingStickyNote) {
+      const x = event.clientX;
+      const y = event.clientY;
+
+      const note = document.createElement('div');
+      note.className = 'sticky-note';
+      note.contentEditable = 'true';
+      note.style.position = 'absolute';
+      note.style.left = `${x}px`;
+      note.style.top = `${y}px`;
+      note.innerText = 'Click to edit';
+
+      calendar.appendChild(note);
+
+      isAddingStickyNote = false;
+    }
+  });
+
+  // Optional: Add event listeners for dragging the sticky notes
+  calendar.addEventListener('mousedown', function (event) {
+    const note = event.target.closest('.sticky-note');
+
+    if (note) {
+      const offsetX = event.clientX - note.getBoundingClientRect().left;
+      const offsetY = event.clientY - note.getBoundingClientRect().top;
+
+      function moveNote(e) {
+        note.style.left = `${e.clientX - offsetX}px`;
+        note.style.top = `${e.clientY - offsetY}px`;
+      }
+
+      function stopDrag() {
+        window.removeEventListener('mousemove', moveNote);
+        window.removeEventListener('mouseup', stopDrag);
+      }
+
+      window.addEventListener('mousemove', moveNote);
+      window.addEventListener('mouseup', stopDrag);
+    }
+  });
+});
+
+
