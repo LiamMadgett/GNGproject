@@ -105,11 +105,40 @@ updateESTDateTime();
 // Continuous update for current date and time
 setInterval(updateESTDateTime, 1000); // Update every second
 
+// Function to add event to the list
+function addEventToList(eventName, eventDate, startTime, endTime) {
+  const eventList = document.getElementById('eventList');
+  const eventItem = document.createElement('li');
+  eventItem.textContent = `${eventName} - ${eventDate} (${startTime} - ${endTime})`;
+  eventList.appendChild(eventItem);
+}
+
+// Function to open the event modal
+function openEventModal() {
+  document.getElementById('eventModal').style.display = 'block';
+
+  document.getElementById('saveEvent').addEventListener('click', function() {
+    const eventName = document.getElementById('eventName').value;
+    const eventDate = document.getElementById('eventDate').value; // Get the selected date
+    const startTime = document.getElementById('startTime').value;
+    const endTime = document.getElementById('endTime').value;
+
+    if (eventDate && validateTime(startTime) && validateTime(endTime)) {
+      // Check if date, start time, and end time are selected
+      alert(`Event "${eventName}" on ${eventDate} from ${startTime} to ${endTime} saved!`);
+      document.getElementById('eventModal').style.display = 'none';
+
+      addEventToList(eventName, eventDate, startTime, endTime);
+    } else {
+      alert('Please enter a valid date, start time, and end time.');
+    }
+  });
+}
+
 // Event listener for the "Add Event" button
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('addEventBtn').addEventListener('click', function() {
-    const currentDate = new Date();
-    openEventModal(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+    openEventModal();
   });
 });
 
