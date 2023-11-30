@@ -102,8 +102,6 @@ function openEventModal() {
       // Check if date, start time, and end time are selected
       alert(`Event "${eventName}" on ${eventDate} from ${startTime} to ${endTime} saved!`);
       document.getElementById('eventModal').style.display = 'none';
-
-      addEventToList(eventName, eventDate, startTime, endTime);
       
       // Update the "Upcoming Events" list directly
       const upcomingEvents = document.getElementById('eventList');
@@ -124,6 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+//Adding Sticky Note
 document.addEventListener('DOMContentLoaded', function () {
   const addStickyNoteBtn = document.getElementById('addStickyNoteBtn');
   const calendar = document.querySelector('.week');

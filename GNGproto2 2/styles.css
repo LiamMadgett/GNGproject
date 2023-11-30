@@ -82,6 +82,7 @@
   
   .tasks h3 {
     margin-bottom: 10px;
+    text-align: center;
   }
   
   .tasks ul {
@@ -142,7 +143,7 @@
   .hours-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* Adjust the number of columns as needed */
-    gap: 2px; /* Adjust gap between hours */
+    gap: 10px; /* Adjust gap between hours */
     border: 1px solid #ccc; /* Optionally, add borders for better separation */
     padding: 5px;
   }
@@ -151,5 +152,19 @@
     text-align: center;
     padding: 5px;
     border-bottom: 1px solid #ccc; /* Optionally, add borders between hours */
+    font-size: 12px;
   }
+
+  /* Sticky Note Adjustments */
+.sticky-note {
+  background-color: #ffcc00;
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 4px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  cursor: grab;
+  max-width: 200px; /* Adjust the maximum width */
+  word-wrap: break-word; /* Wrap the content */
+  font-size: 14px; /* Adjust the font size */
+}
   
