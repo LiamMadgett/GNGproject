@@ -1,3 +1,6 @@
+// Get the current date
+let currentDate = new Date();
+
 // Function to update EST date and time
 function updateESTDateTime() {
   const currentDate = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
@@ -48,33 +51,6 @@ function generateWeeklyCalendar(year, month, day) {
 }
 
 
-// Function to open the event modal
-function openEventModal(year, month, day) {
-  document.getElementById('eventModal').style.display = 'block';
-
-  document.getElementById('saveEvent').addEventListener('click', function() {
-    const eventName = document.getElementById('eventName').value;
-    const eventDate = document.getElementById('eventDate').value; // Get the selected date
-    const startTime = document.getElementById('startTime').value;
-    const endTime = document.getElementById('endTime').value;
-
-    if (eventDate && validateTime(startTime) && validateTime(endTime)) {
-      // Check if date, start time, and end time are selected
-      alert(`Event "${eventName}" on ${eventDate} from ${startTime} to ${endTime} saved!`);
-      document.getElementById('eventModal').style.display = 'none';
-
-      const eventList = document.getElementById('eventList');
-      const eventItem = document.createElement('li');
-      eventItem.textContent = `${eventName} - ${eventDate} (${startTime} - ${endTime})`;
-
-      // Add the new task to the upcoming events list
-      eventList.appendChild(eventItem);
-    } else {
-      alert('Please enter valid date, start time, and end time.');
-    }
-  });
-}
-
 // Function to validate time format (00:00 to 24:00)
 // Function to validate time format (00:00 to 24:00)
 function validateTime(time) {
@@ -82,8 +58,6 @@ function validateTime(time) {
   return regex.test(time);
 }
 
-// Get the current date
-let currentDate = new Date();
 
 // Generate weekly calendar for the current week on page load
 generateWeeklyCalendar(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
@@ -115,6 +89,7 @@ function addEventToList(eventName, eventDate, startTime, endTime) {
 
 // Function to open the event modal
 function openEventModal() {
+  console.log("Modal opened!");
   document.getElementById('eventModal').style.display = 'block';
 
   document.getElementById('saveEvent').addEventListener('click', function() {
@@ -129,6 +104,13 @@ function openEventModal() {
       document.getElementById('eventModal').style.display = 'none';
 
       addEventToList(eventName, eventDate, startTime, endTime);
+      
+      // Update the "Upcoming Events" list directly
+      const upcomingEvents = document.getElementById('eventList');
+      const eventListItem = document.createElement('li');
+      eventListItem.textContent = `${eventName} - ${eventDate} (${startTime} - ${endTime})`;
+      upcomingEvents.appendChild(eventListItem);
+
     } else {
       alert('Please enter a valid date, start time, and end time.');
     }
